@@ -1,230 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vu Nguyen - Data Scientist</title>
-	
+
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    
+
     <!-- External Stylesheets -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css">
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
     <style>
-    /* Ensure the html and body occupy full height of the viewport */
-    html, body {
-        height: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    
-    /* Body Styles */
-    body {
-        background-color: #000; /* Set body background to black */
-        font-family: 'Roboto', sans-serif;
-        line-height: 1.7;
-        margin: 0;
-        padding: 0;
-        color: #3e2723; /* Dark brown text */
-        font-weight: ;
-    }
+        /* Ensure the html and body occupy full height of the viewport */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Wrapper Styles */
-    .wrapper {
-        min-height: 100vh; /* Ensure wrapper is at least as tall as the viewport */
-        display: flex;
-        flex-direction: column; /* Align children vertically */
-        max-width: 1400px; /* Set maximum width */
-        margin: 20px auto; /* Center the wrapper horizontally */
-        padding: 20px;
-        background-color: #f4f3ee; /* Light beige background */
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow */
-        border-radius: 10px; /* Optional: rounded corners */
-    }
+        /* Body Styles */
+        body {
+            background-color: #000; /* Set body background to black */
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.7;
+            margin: 0;
+            padding: 0;
+            color: #3e2723; /* Dark brown text */
+        }
 
-    /* Header */
-    header {
-        text-align: center;
-        padding: 10px; /* Reduced padding */
-        background: linear-gradient(135deg, #5d4037, #8d6e63); /* Brown gradient */
-        border-bottom: 3px solid #a1887f; /* Darker accent */
-        border-radius: 10px 10px 0 0; /* Match corner radius */
-    }
+        /* Wrapper Styles */
+        .wrapper {
+            min-height: 100vh; /* Ensure wrapper is at least as tall as the viewport */
+            display: flex;
+            flex-direction: column; /* Align children vertically */
+            max-width: 1400px; /* Set maximum width */
+            margin: 20px auto; /* Center the wrapper horizontally */
+            padding: 20px;
+            background-color: #f4f3ee; /* Light beige background */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Optional: shadow */
+            border-radius: 10px; /* Optional: rounded corners */
+        }
 
-    header h1 {
-        font-size: 3rem; /* Reduced font size */
-        margin-bottom: 5px;
-        color: #fff;
-    }
+        /* Header */
+        header {
+            text-align: center;
+            padding: 10px; /* Reduced padding */
+            background: linear-gradient(135deg, #5d4037, #8d6e63); /* Brown gradient */
+            border-bottom: 3px solid #a1887f; /* Darker accent */
+            border-radius: 10px 10px 0 0; /* Match corner radius */
+        }
 
-    header p {
-        font-size: 2rem; /* Reduced font size */
-        color: #d7ccc8; /* Lighter tan text */
-    }
+        header h1 {
+            font-size: 3rem; /* Reduced font size */
+            margin-bottom: 5px;
+            color: #fff;
+        }
 
-    /* Navigation */
-    nav {
-        text-align: center;
-        background-color: #8d6e63; /* Darker brown */
-        padding: 5px 0; /* Reduced padding */
-        border-radius: 0 0 10px 10px; /* Match corner radius */
-    }
+        header p {
+            font-size: 2rem; /* Reduced font size */
+            color: #d7ccc8; /* Lighter tan text */
+        }
 
-    nav a {
-        color: #fff;
-        margin: 0 10px; /* Reduced margin */
-        text-decoration: none;
-        font-size: 1.5rem; /* Reduced font size */
-    }
+        /* Navigation */
+        nav {
+            text-align: center;
+            background-color: #8d6e63; /* Darker brown */
+            padding: 5px 0; /* Reduced padding */
+            border-radius: 0 0 10px 10px; /* Match corner radius */
+        }
 
-    nav a:hover {
-        color: #32cd32; /* Dark green hover */
-    }
+        nav a {
+            color: #fff;
+            margin: 0 10px; /* Reduced margin */
+            text-decoration: none;
+            font-size: 1.5rem; /* Reduced font size */
+        }
 
-    /* Dropdown Item Styles */
-    .dropdown-item {
-        font-family: 'Courier New', Courier, monospace; /* Change font to Courier */
-        color: #006400; /* Dark green color */
-        font-size: 1rem; /* Adjust font size */
-    }
+        nav a:hover {
+            color: #32cd32; /* Dark green hover */
+        }
 
-    .dropdown-item:hover {
-        background-color: #9b870c; /* Dark yellow background on hover */
-        color: #ffffff; /* White text on hover */
-    }
+        /* Main Content */
+        .content {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 10px 20px; /* Reduced padding */
+            max-width: 1400px;
+            margin: 10px auto; /* Reduced margin */
+            color: #3e2723;
+        }
 
-    /* Main Content */
-    .content {
-        display: flex;
-        align-items: flex-start;
-        padding: 10px 20px; /* Reduced padding */
-        max-width: 1400px;
-        margin: 10px auto; /* Reduced margin */
-        color: #3e2723;
-    }
+        .content img {
+            flex: 1;
+            max-width: 350px;
+            height: auto;
+            margin-right: 20px;
+            border-radius: 10px;
+            border: 3px solid #a1887f; /* Border color matching accent */
+        }
 
-    .content .main-text {
-        flex: 2;
-    }
+        .main-text {
+            flex: 2;
+            text-align: left;
+        }
 
-    .content img {
-        flex: 1;
-        max-width: 300px;
-        border-radius: 10px;
-        border: 3px solid #a1887f; /* Border color matching accent */
-    }
-	
-	/* Binary text specific styles */
-	.binary-text {
-		font-size: 1.2rem; /* Adjust the font size for binary text */
-		letter-spacing: 1px; /* Adjust spacing if needed */
-	}
+        /* Binary text specific styles */
+        .binary-text {
+            font-size: 1.2rem; /* Adjust the font size for binary text */
+            letter-spacing: 1px; /* Adjust spacing if needed */
+        }
 
-    /* Binary to Text Transition */
-    .hello-text {
-        font-size: 2.5rem; /* Larger size for Hello text */
-        font-weight: bold;
-        color: #32cd32; /* Lime Green color */
-        cursor: wait; /* Pointer cursor to indicate interactivity */
-        transition: color 0.3s ease-in-out, font-size 2.5s ease-in-out; /* Smooth transition for color and size */
-    }
+        /* Binary to Text Transition */
+        .hello-text {
+            font-size: 2.5rem; /* Larger size for Hello text */
+            font-weight: bold;
+            color: #32cd32; /* Lime Green color */
+            cursor: wait; /* Pointer cursor to indicate interactivity */
+            transition: color 0.3s ease-in-out, font-size 2.5s ease-in-out; /* Smooth transition for color and size */
+        }
 
-    .hello-text[data-binary]:hover {
-        color: #4169E1; /* Royal blue color on hover */
-		font-size: 1.2rem
-    }
+        .hello-text[data-binary]:hover {
+            color: #4169E1; /* Royal blue color on hover */
+            font-size: 1.2rem;
+        }
+		
+		/* Dropdown Item Styles */
+		.dropdown-item {
+			font-family: 'Courier New', Courier, monospace; /* Change font to Courier */
+			color: #006400; /* Dark green color */
+			font-size: 1rem; /* Adjust font size */
+		}
 
-    /* Footer Styles */
-    footer {
-        padding: 10px 0; /* Reduce vertical padding */
-        font-size: 0.8rem; /* Smaller font size */
-        line-height: 1.2; /* Adjust line height */
-        background-color: #8d6e63; /* Keep the background color as before */
-        color: white; /* Text color */
-        border-radius: 0 0 10px 10px; /* Keep rounded corners if needed */
-        text-align: center; /* Center text */
-        margin-top: auto; /* Push footer to the bottom */
-    }
+		.dropdown-item:hover {
+			background-color: #9b870c; /* Dark yellow background on hover */
+			color: #ffffff; /* White text on hover */
+		}
 
-    footer h4 {
-        margin-bottom: 5px; /* Reduced margin */
-        font-size: 1.1rem; /* Reduced font size */
-        color: #ffab91; /* Light orange */
-    }
+        /* Map and Description Container Styles */
+		.map-container {
+			display: flex; /* Align map and description side by side */
+			align-items: flex-start; /* Align items at the top */
+			gap: 20px; /* Space between the map and the text box */
+			margin: 20px 0; /* Space above and below the container */
+		}
 
-    footer p {
-        margin-bottom: 5px; /* Reduced margin */
-    }
+		/* Map Title and Text Box Styles */
+		.map-description {
+			max-width: 40%; /* Limit the width of the text box */
+		}
 
-    footer a {
-        color: #ffab91; /* Light orange links */
-        text-decoration: none;
-    }
+		.map-title {
+			text-align: left; /* Align the title to the left */
+			font-size: 2rem; /* Adjust the font size */
+			color: #a1887f; /* Dark brown text color */
+			font-family: 'Roboto', sans-serif; /* Ensure font consistency */
+			font-weight: bold; /* Make the font bold */
+		}
 
-    footer a:hover {
-        text-decoration: underline;
-    }
+		.journey-text {
+			font-size: 1rem; /* Set font size for the description */
+			color: #3e2723; /* Dark brown text color for consistency */
+			line-height: 1.5; /* Improve readability */
+		}
 
-    footer .footer-content {
-        display: inline-block;
-        text-align: center;
-        margin: 0 auto;
-        max-width: 700px;
-    }
+		/* Adjust Map Container Styles */
+		#map {
+			width: 55%; /* Adjust the width of the map */
+			height: 400px; /* Height of the map */
+			border: 2px solid #a1887f;
+			border-radius: 10px;
+		}
+		
+		/* Separator Line Styles */
+		.separator-line {
+			border: none; /* Remove the default border */
+			border-top: 2px solid #8d6e63; /* Add a custom color and thickness */
+			margin: 20px 0; /* Add spacing around the line */
+		}
+		
+		/* Improved Custom Numbered Marker Styles */
+		.custom-div-icon {
+			background: linear-gradient(145deg, #ff7f50, #ff4500); /* Gradient from coral to orange-red */
+			color: white; /* White text for contrast */
+			border-radius: 50%; /* Round shape */
+			width: 50px; /* Slightly larger size for better readability */
+			height: 50px; /* Keep the marker proportional */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			border: 0.5px dash #8b0000; /* Dark red border for definition */		
+			font-size: 1.0rem; /* Larger font size for improved readability */			
+			padding: 8.5px; /* Padding to make the number feel more centered */
+		}
 
-    footer div {
-        margin-bottom: 10px; /* Reduced margin */
-    }
+		/* Custom Popup Styles */
+		.custom-popup {
+			background-color: rgba(128, 128, 128, 0.98); /* Increase opacity for a solid light beige background */
+			color: #ffffff; /* Change text color to dark red for better contrast */
+			font-size: 1.1rem; /* Increase the text size for readability */
+			padding: 5px; /* Adjust padding to reduce the overall box size */
+			border: none; /* Remove any border that may be applied */
+			box-shadow: none; /* Remove any shadow effect */
+			margin: 0; /* Remove any margin around the popup */
+			line-height: 1.4; /* Adjust line height for better readability */
+			border-radius: 5px; /* Add slight rounding to the corners for a smoother look */
+		}
 
-    /* Modal Styles */
-    .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        overflow: auto; /* Enable scroll */
-        background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
-    }
+		/* Override Leaflet's default popup styles */
+		.leaflet-popup-content-wrapper {
+			background: none; /* Remove default background */
+			border: none; /* Remove default border */
+			box-shadow: none; /* Remove default shadow */
+			max-width: 200px; /* Decrease the maximum width of the popup box */
+			padding: 5px; /* Reduce padding to make the box more compact */
+		}
 
-    .modal-content {
-        margin: 0% auto;
-        padding: 0px;
-		width: 50%;
-        max-width: 800px;
-        background-color: white;
-        overflow-y: auto; /* Vertical scrolling for content */
-        max-height: 800vh; /* Restrict height to enable scrolling */
-        border-radius: 10px;
-    }
+		.leaflet-popup-content {
+			margin: 0; /* Remove extra margin from the content */
+		}
 
-    .modal-content img {
-		image-rendering: -webkit-optimize-contrast;
-        width: 100%; /* Make sure the image fits the modal */
-        height: auto;
-        display: block;
-        margin: 0 auto;
-        margin-bottom: 20px; /* Space between images */
-    }
+		.leaflet-popup-tip {
+			display: none; /* Remove the small triangular tip below the popup */
+		}
 
-    .close {
-        color: black;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
-        cursor: pointer; /* Pointer cursor on hover */
-		margin-top: 0px; /* Add margin to move the 'X' down *
-    }
+		/* Footer Styles */
+		footer {
+			display: flex; /* Enable Flexbox for the footer */
+			align-items: center; /* Vertically center the content */
+			justify-content: flex-start; /* Align the content to the left */
+			padding: 5px 30px; /* Reduce vertical padding */
+			font-size: 0.9rem; /* Smaller font size */
+			line-height: 1.2; /* Adjust line height */
+			background-color: #8d6e63; /* Footer background */
+			color: white;
+			border-radius: 10px; /* Keep rounded corners */
+			text-align: left; /* Center text */
+			margin-top: auto; /* Push footer to the bottom of the container */
+		}
 
-    .close:hover, .close:focus {
-        color: #bbb;
-        text-decoration: none;
-    }
+		footer h4 {
+			font-size: 1.2rem;
+			color: #ffab91; /* Light orange */
+		}
 
+		footer a {
+			color: #ffab91; /* Light orange links */
+			text-decoration: none;
+			font-size: 1.1rem;
+		}
+
+		footer a:hover {
+			text-decoration: underline;
+			color: navy; /* Changed to navy for consistency */
+		}
+
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8); /* Black background with opacity */
+        }
+
+        .modal-content {
+            margin: 5% auto;
+            padding: 20px;
+            background-color: white;
+            width: 50%;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: black;
+            float: right;
+            font-size: 28px;
+            cursor: pointer;
+        }
     </style>
-
 </head>
 
 <body>
@@ -244,96 +306,141 @@
                 <ul class="dropdown-menu" aria-labelledby="projectsDropdown">
                     <li><a class="dropdown-item" href="https://nguyenlamvu88.github.io/dsci550_assignment_3_visualizations/dsci550_bigfoot_sightings_visualizations.html" target="_blank">Bigfoot Sightings Data Exploration</a></li>
                     <li><a class="dropdown-item" href="https://bit.ly/3xHxiNZ" target="_blank">Property Management Application</a></li>
-		    <li><a class="dropdown-item" href="https://nguyenlamvu88.github.io/dsci_554_country_dashboard/" target="_blank">Country Dashboard Project</a></li>
-                     <!--<li><a class="dropdown-item" href="https://github.com/nguyenlamvu88/project3" target="_blank">Project 3</a></li>-->
+                    <li><a class="dropdown-item" href="https://nguyenlamvu88.github.io/dsci_554_country_dashboard/" target="_blank">Country Dashboard Project</a></li>
                 </ul>
             </div>
         </nav>
 
         <!-- Main Content -->
-        <div class="content" style="display: flex; align-items: center; justify-content: center; text-align: center;">
-            <img src="https://nguyenlamvu88.github.io/personal-website/images/about_me_picture.jpg" alt="Vu Nguyen" style="max-width: 350px; height: auto; margin-right: 20px; border-radius: 10px; border: 3px solid #a1887f;">
-            <div class="main-text" style="text-align: left;">
-		    <!-- Text Element with Initial State as "Hello" -->
-		    <h2 class="hello-text" id="helloText" data-binary="false">Hello</h2>
-		    <p>I’ve had the privilege of serving in the Army for 11 years, including two deployments, where I led teams in diverse and high-pressure environments. These experiences have enhanced my leadership and problem-solving abilities, which I’m eager to apply alongside my technical expertise.</p>
-		    <p>Currently, I’m pursuing a master’s degree in Applied Data Science at USC, where I focus on leveraging machine learning, statistical analysis, and big data to solve complex challenges and drive informed decision-making. I’m proficient in Python, JavaScript, and creating interactive data visualizations using D3.js. Additionally, I have experience building dynamic websites with HTML, CSS, and JavaScript, and managing data efficiently on cloud platforms like AWS and Google Firebase, as well as databases such as MongoDB.</p>
-		    <p>My coursework in machine learning, cloud computing, data visualization, and systems architecture enables me to bridge academic knowledge with real-world applications, particularly in operations research and systems analysis. I’m excited to integrate my leadership background and technical skills to make a meaningful impact in data-driven projects.</p>
-	    </div>
-
+        <div class="content">
+            <img src="https://nguyenlamvu88.github.io/personal-website/images/about_me_picture.jpg" alt="Vu Nguyen">
+            <div class="main-text">
+                <h2 class="hello-text" id="helloText" data-binary="false">Hello</h2>
+                <p>I’ve had the privilege of serving in the Army for 11 years, including two deployments, where I led teams in diverse and high-pressure environments. These experiences have enhanced my leadership and problem-solving abilities, which I’m eager to apply alongside my technical expertise.</p>
+                <p>Currently, I’m pursuing a master’s degree in Applied Data Science at USC, focusing on machine learning, statistical analysis, and big data to solve complex challenges and drive informed decision-making. I’m proficient in Python, JavaScript, and creating interactive data visualizations using D3.js.</p>
+                <p>My coursework in machine learning, cloud computing, data visualization, and systems architecture enables me to bridge academic knowledge with real-world applications, particularly in operations research and systems analysis.</p>
+            </div>
         </div>
+		
+		<hr class="separator-line">
+				
+		<!-- Container for Map and Explanation -->
+		<div class="map-container">
+			<div class="map-description">
+				<h3 class="map-title">My Journey</h3>
+				<p class="journey-text">
+					I started my military career at <strong>Fort Sill, OK</strong>, attending Air Defense BOLC in <em>2013</em>. I then moved to <strong>Camp Carroll, Korea</strong>, serving as a Platoon Leader from <em>2013 to 2014</em>. My next assignment was at <strong>Fort Cavazos, TX</strong>, where I served as Executive Officer from <em>2014 to 2017</em> and deployed to <strong>Bahrain</strong> during that time. Following that, I continued my career at <strong>Fort Liberty, NC</strong>, completing the Civil Affairs CCC from <em>2017 to 2019</em>. At <strong>Fort Bliss, TX</strong>, I took on the role of Assistance S3 in <em>2019</em>, and later became Battery Commander from <em>2019 to 2021</em>, during which I deployed as a Battery Commander to <strong>Iraq</strong>. My journey then led me to <strong>Fort Leavenworth, KS</strong>, where I worked as Operations Officer, MCTP, from <em>2021 to 2023</em>. Currently, I am pursuing a master's degree as a Graduate Student at <strong>USC, Los Angeles</strong>, from <em>2023 to my anticipated graduation in 2025</em>.
+				</p>
+			</div>
+
+			<div id="map"></div>
+		</div>
 
         <!-- The Modal -->
         <div id="resumeModal" class="modal">
             <div class="modal-content">
                 <span class="close">&times;</span>
-                <img src="https://nguyenlamvu88.github.io/personal-website/images/vu_resume_sep_2024.png" alt="Resume Page">                
+                <img src="https://nguyenlamvu88.github.io/personal-website/images/vu_resume_sep_2024.png" alt="Resume Page">
             </div>
         </div>
 
-        <!-- Footer -->
+        <!-- Footer Section -->
         <footer>
-            <div class="footer-content" style="display: flex; justify-content: space-between; max-width: 800px; margin: auto;">
-                <div class="contact" style="text-align: left;">
-                    <h4>Contact</h4>
-                    <p>work email: vu.l.nguyen3.mil@army.mil</p>
-                    <p>personal email: nguyenlamvu88@gmail.com</p>
-                    <p>phone: 971-340-3385</p>
-                    <p><a href="https://www.linkedin.com/in/vu-l-nguyen" target="_blank">LinkedIn</a></p>
-                </div>
+            <div class="footer-content">
+                <h4>Contact</h4>
+                <p>work email: vu.l.nguyen3.mil@army.mil</p>
+                <p>personal email: nguyenlamvu88@gmail.com</p>
+                <p>phone: 971-340-3385</p>
+                <p><a href="https://www.linkedin.com/in/vu-l-nguyen" target="_blank">LinkedIn</a></p>
             </div>
         </footer>
-    </div> <!-- End of Wrapper -->
+    </div>
 
-    <!-- Bootstrap JS and Popper.js (Required for Bootstrap components to work) -->
+    <!-- Bootstrap JS and Popper.js -->
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 
-    <!-- JavaScript for Modal and Resume Download -->
+    <!-- Leaflet JS and Map Configuration -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Get the modal
+        // Set the map's view to focus on the central Pacific region
+        var map = L.map('map').setView([30, 5], 1.8);
+
+        // Add a tile layer to the map with the noWrap option to prevent duplicates
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 18,
+            noWrap: true, // Prevents the map from wrapping horizontally
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Set the map's maximum bounds to restrict panning
+        map.setMaxBounds([
+            [-90, -180], // Southwest corner of the map
+            [90, 180]    // Northeast corner of the map
+        ]);
+
+        // Updated locations array with correct coordinates and descriptions
+        var locations = [
+            { coords: [34.6628, -98.3071], name: "Fort Sill, Oklahoma", time: "Jun 2013 – Dec 2013" },
+            { coords: [35.9926, 128.3976], name: "Camp Carroll, Korea", time: "Dec 2013 – Dec 2014" },
+            { coords: [31.1352, -97.7745], name: "Fort Cavazos, Texas", time: "Dec 2014 – Aug 2017" },
+            { coords: [35.1401, -79.0063], name: "Fort Liberty, North Carolina", time: "Aug 2017 – Mar 2019" },
+            { coords: [31.8129, -106.4211], name: "Fort Bliss, Texas", time: "Mar 2019 – May 2021" },
+            { coords: [39.2804, -94.9277], name: "Fort Leavenworth, Kansas", time: "Jul 2021 – Jul 2023" },
+            { coords: [34.0522, -118.2437], name: "University of Southern California, Los Angeles", time: "Jul 2023 – May 2025" }
+        ];
+
+        // Loop through each location and add a numbered marker with a popup to the map
+        locations.forEach(function(location, index) {
+            var marker = L.marker(location.coords, {
+                icon: L.divIcon({
+                    className: 'custom-div-icon', // Custom class for styling
+                    html: `<div class="numbered-marker">${index + 1}</div>`, // Display number
+                })
+            })
+            .addTo(map)
+            .bindPopup(
+                `<div class="custom-popup"><b>${location.name}</b><br>${location.time}</div>`,
+                { closeButton: false } // Disable the default close button
+            );
+
+            // Show popup on hover
+            marker.on('mouseover', function () {
+                this.openPopup();
+            });
+
+            // Optional: Close popup when the mouse leaves the marker
+            marker.on('mouseout', function () {
+                this.closePopup();
+            });
+        });
+
+        // Modal functionality
         var modal = document.getElementById("resumeModal");
-
-        // Get the link that opens the modal
         var link = document.getElementById("resumeLink");
-
-        // Get the <span> element that closes the modal
         var span = document.getElementsByClassName("close")[0];
 
-        // When the user clicks on the link, open the modal and trigger the download
         link.onclick = function(event) {
-            event.preventDefault(); // Prevent default link behavior
-
-            // Open the modal
+            event.preventDefault();
             modal.style.display = "block";
+        };
 
-            // Trigger the download of the resume
-            var downloadLink = document.createElement('a');
-            downloadLink.href = 'https://raw.githubusercontent.com/nguyenlamvu88/personal-website/main/vu_nguyen_resume_sep_2024.pdf';
-            downloadLink.download = 'vu_nguyen_resume_sep_2024.pdf';
-            document.body.appendChild(downloadLink);
-            downloadLink.click();
-            document.body.removeChild(downloadLink);
-        }
-
-        // When the user clicks on <span> (x), close the modal
         span.onclick = function() {
             modal.style.display = "none";
-        }
+        };
 
-        // When the user clicks anywhere outside of the modal, close it
         window.onclick = function(event) {
             if (event.target == modal) {
                 modal.style.display = "none";
             }
-        }
+        };
 
-        // JavaScript for text to binary transition
+        // Binary to text interaction
         var helloText = document.getElementById('helloText');
         helloText.addEventListener('mouseover', function() {
             if (helloText.dataset.binary === "false") {
                 helloText.textContent = "01001000 01100101 01101100 01101100 01101111"; // Binary for Hello
-                helloText.classList.add('binary-text'); // Add binary styling
+                helloText.classList.add('binary-text');
                 helloText.dataset.binary = "true";
             }
         });
@@ -341,11 +448,12 @@
         helloText.addEventListener('mouseout', function() {
             if (helloText.dataset.binary === "true") {
                 helloText.textContent = "Hello";
-                helloText.classList.remove('binary-text'); // Remove binary styling
+                helloText.classList.remove('binary-text');
                 helloText.dataset.binary = "false";
             }
         });
     </script>
-
 </body>
+
 </html>
+
