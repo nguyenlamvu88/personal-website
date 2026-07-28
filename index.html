@@ -1,0 +1,1844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Vu Nguyen | Army ORSA & Data Scientist</title>
+  <meta
+    name="description"
+    content="Army ORSA and data scientist working across AI, analytics, wargaming, strategy, and integrated air defense operations."
+  >
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/topojson-client@3.1.0/dist/topojson-client.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #f7f4ee;
+      --surface: #ffffff;
+      --surface-soft: #fbfaf7;
+      --text: #17212b;
+      --muted: #66717c;
+      --line: #ddd8cf;
+      --navy: #17364f;
+      --accent: #c65f3d;
+      --accent-soft: #f3e0d8;
+      --shadow: 0 14px 42px rgba(26, 38, 48, 0.09);
+      --radius: 22px;
+      --max-width: 1220px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Inter", system-ui, sans-serif;
+      line-height: 1.65;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      width: min(calc(100% - 42px), var(--max-width));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      padding: 14px 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 24px;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-links a {
+      color: var(--accent);
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .nav-links a:hover {
+      color: #a94f34;
+    }
+
+    .hero {
+      padding: 10px 0 12px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.65fr) minmax(220px, 0.45fr);
+      align-items: start;
+      gap: 34px;
+    }
+
+    .hero-grid > div:first-child,
+    .portrait-column {
+      align-self: start;
+    }
+
+    .identity-line {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      margin-bottom: 5px;
+      flex-wrap: wrap;
+      white-space: normal;
+    }
+
+    .identity-name {
+      display: inline-flex;
+      align-items: baseline;
+      gap: 0;
+      margin: 0;
+      font-size: clamp(2.4rem, 4vw, 3.4rem);
+      font-weight: 800;
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+    }
+
+    .identity-name .last-name {
+      margin-left: 0.32em;
+    }
+
+    .identity-role {
+      color: var(--accent);
+      font: 600 clamp(0.95rem, 1.25vw, 1.08rem) "IBM Plex Mono", monospace;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    .identity-separator {
+      color: var(--line);
+      font-weight: 700;
+    }
+
+    .personal-tagline {
+      margin: 8px 0 17px;
+      color: var(--muted);
+      font: 500 0.95rem "IBM Plex Mono", monospace;
+      line-height: 1.45;
+    }
+
+    .value-quote {
+      max-width: 760px;
+      margin: 17px 0 0;
+      padding: 4px 0 4px 18px;
+      border-left: 4px solid var(--accent);
+      color: var(--text);
+      font-size: clamp(1.45rem, 2.4vw, 2rem);
+      font-style: italic;
+      font-weight: 800;
+      line-height: 1.3;
+      letter-spacing: -0.03em;
+    }
+
+    .value-quote span {
+      color: var(--accent);
+    }
+
+    .hero-summary {
+      max-width: 760px;
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: clamp(1.08rem, 1.65vw, 1.18rem);
+      line-height: 1.7;
+    }
+
+    .hero-summary strong {
+      color: var(--text);
+    }
+
+    .portrait-column {
+      display: flex;
+      justify-content: flex-end;
+      align-items: flex-start;
+    }
+
+    .portrait-card {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+      max-width: 285px;
+      aspect-ratio: 4 / 4.3;
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .portrait-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .linkedin-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #cf7659;
+      border-radius: 10px;
+      background: #df9278;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      transition:
+        transform 160ms ease,
+        background 160ms ease,
+        box-shadow 160ms ease;
+    }
+
+    .linkedin-button-compact {
+      width: auto;
+      min-height: 38px;
+      margin-top: 13px;
+      padding: 8px 14px;
+      font-size: 0.84rem;
+    }
+
+    .linkedin-button:hover {
+      transform: translateY(-2px);
+      background: #d57f62;
+      box-shadow: 0 8px 20px rgba(198, 95, 61, 0.18);
+    }
+
+    .snapshot {
+      padding: 14px 0 28px;
+    }
+
+    .snapshot-grid {
+      display: grid;
+      grid-template-columns: minmax(330px, 0.68fr) minmax(0, 1.72fr);
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .snapshot-stack {
+      display: grid;
+      gap: 18px;
+    }
+
+    .snapshot-card {
+      min-width: 0;
+      padding: 28px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .snapshot-card h2 {
+      margin: 0;
+      color: var(--accent);
+      font: 600 1.18rem "IBM Plex Mono", monospace;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .snapshot-card p {
+      margin: 16px 0 0;
+      color: var(--muted);
+      font-size: 1rem;
+      line-height: 1.75;
+    }
+
+    .snapshot-card strong {
+      color: var(--text);
+    }
+
+    .quick-list {
+      display: grid;
+      gap: 11px;
+      margin-top: 18px;
+    }
+
+    .quick-item {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      color: var(--muted);
+      font-size: 0.98rem;
+      line-height: 1.55;
+    }
+
+    .quick-item::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      flex: 0 0 auto;
+      margin-top: 9px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .map-card {
+      display: flex;
+      min-height: 100%;
+      flex-direction: column;
+      background:
+        radial-gradient(circle at 18% 10%, var(--accent-soft), transparent 27%),
+        var(--surface-soft);
+    }
+
+    .map-intro {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 22px;
+    }
+
+    .map-intro p {
+      max-width: 590px;
+      margin: 0;
+      text-align: right;
+      font-size: 0.98rem;
+    }
+
+    .career-visual-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
+      gap: 16px;
+      align-items: stretch;
+      margin-top: 16px;
+    }
+
+    .experience-chart-card {
+      display: flex;
+      min-width: 0;
+      min-height: 430px;
+      flex-direction: column;
+      padding: 19px 17px 16px;
+      border: 1px solid #d4beac;
+      border-radius: 18px;
+      background:
+        linear-gradient(155deg, rgba(255, 255, 255, 0.42), transparent 42%),
+        #eee0d3;
+      box-shadow:
+        0 10px 26px rgba(71, 49, 35, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+    }
+
+    .experience-chart-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .experience-chart-header h3 {
+      margin: 0;
+      color: var(--text);
+      font-size: 1.5rem;
+      line-height: 1.25;
+      letter-spacing: -0.025em;
+    }
+
+    .experience-total {
+      display: inline-flex;
+      flex: 0 0 auto;
+      align-items: center;
+      justify-content: center;
+      min-height: 30px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      background: var(--accent);
+      color: white;
+      font: 700 0.76rem "IBM Plex Mono", monospace;
+      white-space: nowrap;
+    }
+.experience-chart {
+      width: 100%;
+      min-height: 420px;
+      margin-top: 12px;
+      flex: 1 1 auto;
+      overflow: visible;
+    }
+
+    .experience-axis text {
+      fill: #5e625f;
+      font: 600 12px "Inter", sans-serif;
+    }
+
+    .experience-axis line {
+      stroke: #d1bdad;
+    }
+
+    .experience-axis path {
+      display: none;
+    }
+
+    .experience-row {
+      outline: none;
+    }
+
+    .experience-label {
+      fill: #26313a;
+      font: 700 13px "Inter", sans-serif;
+    }
+
+    .experience-bar-track {
+      fill: rgba(255, 255, 255, 0.54);
+      stroke: rgba(126, 92, 67, 0.13);
+      stroke-width: 1;
+    }
+
+    .experience-bar {
+      fill: #c98368;
+      transition:
+        fill 150ms ease,
+        filter 150ms ease,
+        opacity 150ms ease;
+    }
+
+    .experience-row.interactive {
+      cursor: pointer;
+    }
+
+    .experience-row.interactive:hover .experience-bar,
+    .experience-row.interactive:focus .experience-bar,
+    .experience-bar.active {
+      fill: var(--accent);
+      filter: drop-shadow(0 3px 5px rgba(74, 43, 29, 0.16));
+    }
+
+    .experience-duration {
+      fill: #3f4549;
+      font: 700 11.5px "IBM Plex Mono", monospace;
+    }
+.map-wrap {
+      position: relative;
+      min-height: 430px;
+      margin-top: 0;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #eef1f2;
+      cursor: grab;
+    }
+
+    .map-wrap:active {
+      cursor: grabbing;
+    }
+
+    .career-map {
+      width: 100%;
+      height: 100%;
+      min-height: 430px;
+    }
+
+    .map-ocean {
+      fill: #eef1f2;
+    }
+
+    .map-graticule {
+      fill: none;
+      stroke: #d9dee1;
+      stroke-width: 0.65;
+      opacity: 0.8;
+    }
+
+    .map-country {
+      fill: #d9d8d2;
+      stroke: #f8f7f3;
+      stroke-width: 0.7;
+    }
+
+    .assignment-marker {
+      cursor: pointer;
+    }
+
+    .marker-leader {
+      stroke: var(--navy);
+      stroke-width: 1.25;
+      opacity: 0.38;
+      pointer-events: none;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .map-node {
+      fill: var(--surface);
+      stroke: var(--navy);
+      stroke-width: 2.35;
+      transition:
+        r 150ms ease,
+        fill 150ms ease,
+        stroke 150ms ease;
+    }
+
+    .map-node.active {
+      fill: var(--accent);
+      stroke: var(--surface);
+      stroke-width: 3.1;
+      filter: drop-shadow(0 4px 7px rgba(26, 38, 48, 0.22));
+    }
+
+    .map-number {
+      fill: var(--navy);
+      font: 800 13px "Inter", sans-serif;
+      text-anchor: middle;
+      dominant-baseline: central;
+      pointer-events: none;
+    }
+
+    .map-number.active {
+      fill: white;
+    }
+
+    .map-active-label {
+      fill: var(--text);
+      font: 700 14px "IBM Plex Mono", monospace;
+      paint-order: stroke;
+      stroke: var(--surface);
+      stroke-width: 5px;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .map-active-note {
+      fill: var(--muted);
+      font: 12px "IBM Plex Mono", monospace;
+      paint-order: stroke;
+      stroke: var(--surface);
+      stroke-width: 5px;
+      stroke-linejoin: round;
+      pointer-events: none;
+    }
+
+    .map-controls {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 4;
+      display: grid;
+      gap: 8px;
+    }
+
+    .map-control-button {
+      display: grid;
+      place-items: center;
+      width: 38px;
+      height: 38px;
+      padding: 0;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      background: rgba(255, 255, 255, 0.94);
+      color: var(--text);
+      font: 800 1rem "Inter", sans-serif;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 5px 16px rgba(26, 38, 48, 0.10);
+      backdrop-filter: blur(8px);
+    }
+
+    .map-control-button:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .map-control-button.reset {
+      font-size: 0.8rem;
+    }
+
+    .assignment-detail {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      margin-top: 16px;
+      padding: 22px;
+      border: 1px solid #d8c6b8;
+      border-radius: 16px;
+      background: #f1e7de;
+      box-shadow:
+        0 8px 22px rgba(71, 49, 35, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    }
+
+    .assignment-detail-number {
+      display: grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: white;
+      font-size: 0.86rem;
+      font-weight: 800;
+    }
+
+    .assignment-detail-period {
+      display: block;
+      color: var(--accent);
+      font: 600 0.72rem "IBM Plex Mono", monospace;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .assignment-detail h3 {
+      margin: 5px 0 3px;
+      font-size: 1.18rem;
+      line-height: 1.35;
+      letter-spacing: -0.02em;
+    }
+
+    .assignment-detail-location {
+      display: block;
+      color: #5f666d;
+      font-size: 0.92rem;
+      font-weight: 600;
+    }
+
+    .assignment-detail p {
+      margin: 8px 0 0;
+      color: #26313a;
+      font-size: 0.96rem;
+      line-height: 1.65;
+    }
+
+    .map-caption {
+      margin: 15px 0 0;
+      color: var(--muted);
+      font-size: 0.88rem;
+    }
+
+    .projects {
+      padding: 48px 0 56px;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      margin: 0;
+      font-size: clamp(2rem, 3.8vw, 2.8rem);
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+    }
+
+    .section-title p {
+      max-width: 520px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+      text-align: right;
+      line-height: 1.65;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(255px, 1fr));
+      gap: 16px;
+    }
+
+    .project-card {
+      display: flex;
+      min-height: 320px;
+      flex-direction: column;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: var(--surface);
+      text-decoration: none;
+      transition: transform 160ms ease, box-shadow 160ms ease, border-color 160ms ease;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: var(--shadow);
+    }
+
+    .project-type {
+      color: var(--accent);
+      font: 600 0.7rem "IBM Plex Mono", monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .project-card h3 {
+      margin: 20px 0 10px;
+      font-size: 1.28rem;
+      line-height: 1.3;
+      letter-spacing: -0.025em;
+    }
+
+    .project-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .project-link {
+      margin-top: auto;
+      padding-top: 20px;
+      color: var(--navy);
+      font-size: 0.92rem;
+      font-weight: 700;
+    }
+
+    .site-footer {
+      padding: 24px 0 34px;
+      border-top: 1px solid var(--line);
+    }
+
+    .footer-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: var(--muted);
+      font-size: 0.84rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      text-decoration: none;
+    }
+
+    .footer-links a:hover {
+      color: var(--text);
+    }
+
+    @media (max-width: 900px) {
+      .career-visual-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .experience-chart-card {
+        min-height: 0;
+      }
+
+      .experience-chart {
+        min-height: 400px;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(210px, 0.36fr);
+        gap: 28px;
+      }
+
+      .portrait-card {
+        max-width: 250px;
+      }
+
+      .snapshot-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .map-intro {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .map-intro p {
+        text-align: left;
+      }
+
+      .section-title {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .section-title p {
+        text-align: left;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .portrait-column {
+        justify-content: flex-start;
+      }
+
+      .portrait-card {
+        max-width: 240px;
+      }
+    }
+
+    @media (max-width: 650px) {
+      .container {
+        width: min(calc(100% - 26px), var(--max-width));
+      }
+
+      .site-header {
+        padding: 12px 0;
+      }
+
+      .nav {
+        justify-content: center;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px 15px;
+      }
+
+      .nav-links a {
+        font-size: 0.82rem;
+      }
+
+      .hero {
+        padding: 8px 0 10px;
+      }
+
+      .identity-line {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .identity-separator {
+        display: none;
+      }
+
+      .value-quote {
+        font-size: 1.3rem;
+      }
+
+      .linkedin-button-compact {
+        margin-top: 12px;
+      }
+
+      .snapshot {
+        padding-top: 10px;
+      }
+
+      .map-wrap,
+      .career-map {
+        min-height: 320px;
+      }
+
+      .experience-chart {
+        min-height: 390px;
+      }
+
+      .footer-content {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#overview">Overview</a>
+        <a href="#projects">Projects</a>
+        <a href="https://github.com/nguyenlamvu88" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/vu-l-nguyen" target="_blank" rel="noopener">LinkedIn</a>
+        <a
+          href="https://nguyenlamvu88.github.io/personal-website/resume/vu_nguyen_resume.pdf"
+          target="_blank"
+          rel="noopener"
+        >
+          Résumé
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="container hero-grid">
+        <div>
+          <div class="identity-line">
+            <h1 class="identity-name">
+              <span>Vu</span>
+              <span class="last-name">Nguyen</span>
+            </h1>
+            <span class="identity-separator">·</span>
+            <span class="identity-role">Army ORSA · Data Scientist</span>
+          </div>
+
+          <p class="personal-tagline">
+            Part video gamer · part beach enthusiast · full-time nerd in uniform
+          </p>
+
+          <blockquote class="value-quote">
+            “Turning complex problems into <span>informed, actionable decisions.</span>”
+          </blockquote>
+
+          <p class="hero-summary">
+            I work at the intersection of <strong>military operations, AI, analytics,
+            wargaming, and strategy</strong>, helping leaders make better decisions with data.
+            Throughout my career, I have learned that great outcomes usually come down to two things:
+            <strong>genuinely taking care of your people</strong> and
+            <strong>supporting leaders in making informed, data-backed decisions.</strong>
+          </p>
+
+          <a
+            class="linkedin-button linkedin-button-compact"
+            href="https://www.linkedin.com/in/vu-l-nguyen"
+            target="_blank"
+            rel="noopener"
+          >
+            Connect on LinkedIn
+          </a>
+        </div>
+
+        <div class="portrait-column">
+          <div class="portrait-card">
+            <img
+              src="https://nguyenlamvu88.github.io/personal-website/images/about_me_picture.jpg"
+              alt="Portrait of Vu Nguyen"
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="snapshot" id="overview">
+      <div class="container snapshot-grid">
+        <div class="snapshot-stack">
+          <article class="snapshot-card">
+            <h2>Who I am</h2>
+            <p>
+              <strong>Army officer, Operations Research and Systems Analyst (ORSA), and data scientist</strong>
+              with 13 years of service and an <strong>active TS/SCI clearance</strong>. My interest in
+              solving complex problems began with a strong foundation in math and science while studying
+              <strong>Civil Engineering at Oregon State University</strong>. That background eventually led
+              me to pursue data science, culminating in an
+              <strong>M.S. in Applied Data Science from the University of Southern California</strong>.
+              My operational experience spans <strong>integrated air defense</strong>, leading Soldiers,
+              serving in Korea, deploying to Bahrain and Iraq, and supporting
+              <strong>wargaming at the division, corps, and joint levels</strong>. Today, I bring those
+              operational and technical experiences together to apply
+              <strong>data science, AI, analytics, and experimentation</strong> to complex joint-force challenges.
+            </p>
+          </article>
+
+          <article class="snapshot-card">
+            <h2>What I do</h2>
+            <p>
+  I translate <strong>operational problems</strong> into
+  <strong>technical solutions</strong> by designing effective workflows and connecting the right
+  <strong>data, analytics, and practical tools</strong> to solve them. In my current role,
+  I support <strong>joint force experimentation, wargaming, AI adoption, and strategic planning</strong>
+  while enabling <strong>better decision-making under compressed timelines</strong>.
+</p>
+            <div class="quick-list">
+              <div class="quick-item"><strong>AI integration and adoption</strong></div>
+              <div class="quick-item"><strong>Operations research and analytics</strong></div>
+              <div class="quick-item"><strong>Wargaming and experimentation</strong></div>
+              <div class="quick-item"><strong>Decision support for leaders</strong></div>
+            </div>
+          </article>
+        </div>
+
+        <article class="snapshot-card map-card">
+          <div class="map-intro">
+            <div>
+              <h2>Worldwide career journey</h2>
+            </div>
+            <p>
+              Pan and zoom the map, and select any numbered location to explore my career from leading troops to solving joint-level challenges. 
+            </p>
+          </div>
+
+          <div class="career-visual-grid">
+            <div class="map-wrap">
+              <svg
+                class="career-map"
+                id="careerMap"
+                viewBox="0 0 1000 470"
+                role="img"
+                aria-label="Interactive world map showing Vu Nguyen's assignments and deployments"
+              ></svg>
+
+              <div class="map-controls" aria-label="Map controls">
+                <button
+                  class="map-control-button"
+                  id="mapZoomIn"
+                  type="button"
+                  aria-label="Zoom in"
+                  title="Zoom in"
+                >+</button>
+                <button
+                  class="map-control-button"
+                  id="mapZoomOut"
+                  type="button"
+                  aria-label="Zoom out"
+                  title="Zoom out"
+                >−</button>
+                <button
+                  class="map-control-button reset"
+                  id="mapReset"
+                  type="button"
+                  aria-label="Reset map view"
+                  title="Reset map view"
+                >↺</button>
+              </div>
+            </div>
+
+            <aside
+              class="experience-chart-card"
+              aria-labelledby="experienceChartTitle"
+            >
+              <div class="experience-chart-header">
+                <h3 id="experienceChartTitle">Timeline of Service</h3>
+                <span class="experience-total" id="experienceTotal">13 Years</span>
+              </div>
+
+              <svg
+                class="experience-chart"
+                id="experienceChart"
+                role="img"
+                aria-label="Horizontal bar chart showing approximate time spent across major career phases"
+              ></svg>
+            </aside>
+          </div>
+
+          <div class="assignment-detail" aria-live="polite">
+            <span
+              class="assignment-detail-number"
+              id="assignmentDetailNumber"
+            >
+            10
+          </span>
+
+          <div>
+            <span
+              class="assignment-detail-period"
+              id="assignmentDetailPeriod"
+            >
+              Jun 2025 - Present
+            </span>
+
+            <h3 id="assignmentDetailTitle">
+              ORSA Officer | Data Scientist
+            </h3>
+
+            <span
+              class="assignment-detail-location"
+              id="assignmentDetailLocation"
+            >
+              Joint Staff J-7 · Suffolk, Virginia
+            </span>
+
+            <p id="assignmentDetailDescription">
+              Apply operations research, data science, AI, and experimentation
+              to complex joint-force challenges. Support joint wargaming,
+              strategic planning, analytical modernization, and AI adoption by
+              designing workflows and decision-support tools that help leaders
+              act under compressed timelines.
+            </p>
+          </div>
+        </div>
+
+        <p class="map-caption">
+          Map locations follow chronological order. Chart durations are
+          approximate and include deployments within their parent assignments
+          to avoid double-counting.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="projects" id="projects">
+    <div class="container">
+      <div class="section-title">
+        <h2>Featured Projects</h2>
+
+        <p>
+          Selected work demonstrating database design, full-stack development,
+          data engineering, geospatial analysis, and interactive visualization.
+        </p>
+      </div>
+
+      <div class="project-grid">
+        <a
+          class="project-card"
+          href="https://dlee8267.github.io/arming-for-stability/"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-type">
+            React · D3 · Mapbox · deck.gl
+          </span>
+
+          <h3>Arming for Stability</h3>
+
+          <p>
+            Built a modular data-storytelling platform that transforms SIPRI,
+            UCDP/PRIO, and World Bank data into interactive choropleths, flow
+            maps, force-directed networks, parallel coordinates, treemaps, and
+            time filters. This project showcases geospatial analytics, advanced
+            visualization, and front-end design.
+          </p>
+
+          <span class="project-link">Open project →</span>
+        </a>
+
+        <a
+          class="project-card"
+          href="https://nguyenlamvu88.github.io/dsci550_assignment_3_visualizations/dsci550_bigfoot_sightings_visualizations.html"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-type">
+            Python · Plotly · Geospatial analysis
+          </span>
+
+          <h3>Bigfoot Sightings Visualization</h3>
+
+          <p>
+            Used Python and Jupyter to transform sighting reports into
+            interactive Plotly visualizations, including geographic heatmaps,
+            moon-phase trends, terrain relationships, word clouds, and witness
+            treemaps, then integrated them into a responsive web experience.
+          </p>
+
+          <span class="project-link">Open project →</span>
+        </a>
+
+        <a
+          class="project-card"
+          href="https://nguyenlamvu88.github.io/dsci_554_country_dashboard/"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-type">
+            D3.js · JavaScript · Dashboard design
+          </span>
+
+          <h3>Country Dashboard</h3>
+
+          <p>
+            Built a coordinated D3.js dashboard with responsive SVG charts,
+            tooltips, KPI calculations, and country and year filters. Combined
+            line, pie, stacked-bar, demographic, health, and trade views to
+            compare Norway and Sweden across multiple indicators.
+          </p>
+
+          <span class="project-link">Open project →</span>
+        </a>
+
+        <a
+          class="project-card"
+          href="https://bit.ly/3xHxiNZ"
+          target="_blank"
+          rel="noopener"
+        >
+          <span class="project-type">
+            MongoDB · Python · Streamlit
+          </span>
+
+          <h3>Property Management Application</h3>
+
+          <p>
+            Designed a document-oriented MongoDB data model and built a
+            full-stack Python and Streamlit prototype for creating, querying,
+            updating, and organizing property records, demonstrating database
+            design, application logic, and cloud deployment.
+          </p>
+
+          <span class="project-link">Open project →</span>
+        </a>
+      </div>
+    </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <span>© <span id="year"></span> Vu Nguyen</span>
+
+      <div class="footer-links">
+        <a id="emailLink" href="#" data-user="nguyenlamvu88" data-domain="gmail.com">Email</a>
+        <a href="https://www.linkedin.com/in/vu-l-nguyen" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://github.com/nguyenlamvu88" target="_blank" rel="noopener">GitHub</a>
+        <a
+          href="https://nguyenlamvu88.github.io/personal-website/resume/vu_nguyen_resume.pdf"
+          target="_blank"
+          rel="noopener"
+        >
+          Résumé
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    const emailLink = document.getElementById("emailLink");
+    emailLink.href = `mailto:${emailLink.dataset.user}@${emailLink.dataset.domain}`;
+
+    const assignments = [
+  {
+    period: "Dec 2013 - Dec 2014",
+    title: "Platoon Leader | Team and Project Management",
+    location: "Camp Carroll, South Korea",
+    coordinates: [128.3976, 35.9926],
+    markerOffset: [0, 0],
+    description:
+      "Led a team responsible for planning and delivering integrated air defense projects in a forward-stationed environment. Assigned responsibilities, developed timelines, coordinated stakeholders, and tracked workflows to improve readiness and ensure successful execution."
+  },
+  {
+    period: "Dec 2014 - Jan 2017",
+    title: "Assistant Operations Manager | Cross-Functional Project Management",
+    location: "Fort Cavazos, Texas",
+    coordinates: [-97.7745, 31.1352],
+    markerOffset: [26, 9],
+    description:
+      "Supported organizational strategy and daily operations for a Patriot air defense unit. Coordinated resources across cross-functional teams, tracked project performance, facilitated collaboration, and advised senior leaders on organizational readiness and system operations."
+  },
+  {
+    period: "During Fort Cavazos assignment",
+    title: "Bahrain Deployment | Operational Program Support",
+    location: "Kingdom of Bahrain",
+    coordinates: [50.5577, 26.0667],
+    markerOffset: [-16, 18],
+    description:
+      "Supported deployed air defense operations by coordinating personnel, equipment, logistics, and mission requirements across multiple stakeholders. Helped maintain operational continuity while adapting plans to changing priorities and time-sensitive demands."
+  },
+  {
+    period: "Feb 2017 - Mar 2019",
+    title: "Leader Development | Civil Affairs Captains Career Course",
+    location: "Fort Liberty, North Carolina",
+    coordinates: [-79.0063, 35.1401],
+    markerOffset: [28, -18],
+    description:
+      "Completed an intensive professional development program focused on regional analysis, planning methodology, data analysis, strategy development, interagency coordination, conflict management, and operations in complex international environments."
+  },
+  {
+    period: "Mar 2019 - Jul 2019",
+    title: "Assistant Plans Manager",
+    location: "Fort Bliss, Texas",
+    coordinates: [-106.4211, 31.8129],
+    markerOffset: [-28, 14],
+    description:
+      "Supported operational planning, developed and synchronized organizational plans, and translated leadership priorities into executable requirements. Coordinated across teams to identify risks, align resources, and prepare the organization for future operations."
+  },
+  {
+    period: "Jul 2019 - Jun 2021",
+    title: "Operations Manager | Strategic Program Leadership",
+    location: "Fort Bliss, Texas",
+    coordinates: [-106.4211, 31.8129],
+    markerOffset: [20, 27],
+    description:
+      "Led more than 75 personnel and managed over $300 million in organizational assets. Directed complex, large-scale programs, reduced operational risk, negotiated resources, resolved competing priorities, and advised senior leaders on Patriot air defense deployment and operations."
+  },
+  {
+    period: "During command",
+    title: "Iraq Deployment | Deployed Operations Leadership",
+    location: "Iraq",
+    coordinates: [43.6793, 33.2232],
+    markerOffset: [19, -15],
+    description:
+      "Led personnel and managed operational requirements in a demanding deployed environment. Balanced mission execution, workforce readiness, risk, logistics, and stakeholder coordination while making time-sensitive decisions under uncertainty."
+  },
+  {
+    period: "Jul 2021 - Jun 2023",
+    title: "Operations Manager | Training Program Lifecycle Management",
+    location: "U.S. Army Combined Arms Center · Fort Leavenworth, Kansas",
+    coordinates: [-94.9277, 39.2804],
+    markerOffset: [-27, -18],
+    description:
+      "Managed the lifecycle and delivery of large, complex projects supporting division- and corps-level warfighting exercises. Synchronized cross-functional teams, coordinated with external organizations, solved ambiguous problems, and aligned program execution with strategic objectives."
+  },
+  {
+    period: "Aug 2023 - May 2025",
+    title: "Graduate Student | M.S. in Applied Data Science",
+    location: "USC Viterbi School of Engineering · Los Angeles",
+    coordinates: [-118.2437, 34.0522],
+    markerOffset: [-31, 25],
+    description:
+      "Developed advanced capabilities in machine learning, statistics, Python, distributed computing, MongoDB, data engineering, and interactive visualization. Applied these skills to build analytical products and translate complex datasets into practical insights."
+  },
+  {
+    period: "Jun 2025 - Present",
+    title: "ORSA Officer | Data Scientist",
+    location: "The Joint Staff · Suffolk, Virginia",
+    coordinates: [-76.5836, 36.7282],
+    markerOffset: [29, 8],
+    description:
+      "Apply operations research, data science, AI, and experimentation to complex joint-force challenges. Support joint wargaming, strategic planning, analytical modernization, and AI adoption by designing workflows and decision-support tools that help leaders act under compressed timelines."
+  }
+];
+
+    const experienceTimelineData = [
+      {
+        label: "Officer development",
+        labelLines: ["Officer", "development"],
+        months: 6,
+        mapIndex: null
+      },
+      {
+        label: "Korea leadership",
+        labelLines: ["Korea", "leadership"],
+        months: 12,
+        mapIndex: 0
+      },
+      {
+        label: "Fort Cavazos operations",
+        labelLines: ["Fort Cavazos", "operations"],
+        months: 26,
+        mapIndex: 1
+      },
+      {
+        label: "Civil Affairs development",
+        labelLines: ["Civil Affairs", "development"],
+        months: 25,
+        mapIndex: 3
+      },
+      {
+        label: "Fort Bliss plans & command",
+        labelLines: ["Fort Bliss", "plans & command"],
+        months: 28,
+        mapIndex: 5
+      },
+      {
+        label: "Division & corps wargaming",
+        labelLines: ["Division & corps", "wargaming"],
+        months: 24,
+        mapIndex: 7
+      },
+      {
+        label: "USC applied data science",
+        labelLines: ["USC applied", "data science"],
+        months: 22,
+        mapIndex: 8
+      },
+      {
+        label: "Joint Staff ORSA & data",
+        labelLines: ["Joint Staff", "ORSA & data"],
+        months: 14,
+        mapIndex: 9
+      }
+    ];
+
+    const assignmentDetailNumber = document.getElementById("assignmentDetailNumber");
+    const assignmentDetailPeriod = document.getElementById("assignmentDetailPeriod");
+    const assignmentDetailTitle = document.getElementById("assignmentDetailTitle");
+    const assignmentDetailLocation = document.getElementById("assignmentDetailLocation");
+    const assignmentDetailDescription = document.getElementById("assignmentDetailDescription");
+
+    let mapState = null;
+    let experienceChartState = null;
+    let activeIndex = assignments.length - 1;
+    let currentTransform = d3.zoomIdentity;
+
+    function updateAssignmentDetail(index) {
+      const assignment = assignments[index];
+      assignmentDetailNumber.textContent = String(index + 1);
+      assignmentDetailPeriod.textContent = assignment.period;
+      assignmentDetailTitle.textContent = assignment.title;
+      assignmentDetailLocation.textContent = assignment.location;
+      assignmentDetailDescription.textContent = assignment.description;
+    }
+
+    function updateMarkerPositions(transform) {
+      if (!mapState) return;
+
+      const {
+        projection,
+        markerGroups,
+        leaderLines
+      } = mapState;
+
+      markerGroups.attr("transform", assignment => {
+        const [baseX, baseY] = projection(assignment.coordinates);
+        const transformedPoint = transform.apply([baseX, baseY]);
+        const [offsetX, offsetY] = assignment.markerOffset;
+
+        return `translate(${transformedPoint[0] + offsetX},${transformedPoint[1] + offsetY})`;
+      });
+
+      leaderLines
+        .attr("x1", assignment => {
+          const [x, y] = projection(assignment.coordinates);
+          return transform.apply([x, y])[0];
+        })
+        .attr("y1", assignment => {
+          const [x, y] = projection(assignment.coordinates);
+          return transform.apply([x, y])[1];
+        })
+        .attr("x2", assignment => {
+          const [x, y] = projection(assignment.coordinates);
+          const point = transform.apply([x, y]);
+          return point[0] + assignment.markerOffset[0];
+        })
+        .attr("y2", assignment => {
+          const [x, y] = projection(assignment.coordinates);
+          const point = transform.apply([x, y]);
+          return point[1] + assignment.markerOffset[1];
+        });
+    }
+
+    function updateLabels(transform) {
+      if (!mapState) return;
+
+      const {
+        projection,
+        activeLabel,
+        activeNote
+      } = mapState;
+
+      const assignment = assignments[activeIndex];
+      const [baseX, baseY] = projection(assignment.coordinates);
+      const transformedPoint = transform.apply([baseX, baseY]);
+      const markerX = transformedPoint[0] + assignment.markerOffset[0];
+      const markerY = transformedPoint[1] + assignment.markerOffset[1];
+
+      const labelOnLeft = markerX > 760;
+      const labelX = labelOnLeft ? markerX - 18 : markerX + 18;
+      const labelAnchor = labelOnLeft ? "end" : "start";
+      const labelAbove = markerY > 245;
+      const labelY = labelAbove ? markerY - 22 : markerY + 34;
+      const noteY = labelAbove ? markerY - 6 : markerY + 52;
+
+      activeLabel
+        .attr("x", labelX)
+        .attr("y", labelY)
+        .attr("text-anchor", labelAnchor)
+        .text(assignment.location);
+
+      activeNote
+        .attr("x", labelX)
+        .attr("y", noteY)
+        .attr("text-anchor", labelAnchor)
+        .text(assignment.title);
+    }
+
+    function activateAssignment(index) {
+      activeIndex = index;
+      updateAssignmentDetail(index);
+
+      if (!mapState) return;
+
+      const { markerGroups } = mapState;
+
+      markerGroups
+        .select("circle")
+        .classed("active", (_, markerIndex) => markerIndex === index)
+        .attr("r", (_, markerIndex) => markerIndex === index ? 18 : 14);
+
+      markerGroups
+        .select(".map-number")
+        .classed("active", (_, markerIndex) => markerIndex === index);
+
+      updateLabels(currentTransform);
+      updateExperienceChartActiveState();
+    }
+
+    function formatExperienceDuration(months) {
+      const years = Math.floor(months / 12);
+      const remainingMonths = months % 12;
+
+      if (years && remainingMonths) {
+        return `${years}y ${remainingMonths}m`;
+      }
+
+      if (years) {
+        return `${years}y`;
+      }
+
+      return `${remainingMonths}m`;
+    }
+
+    function updateExperienceChartActiveState() {
+      if (!experienceChartState) return;
+
+      experienceChartState.bars
+        .classed(
+          "active",
+          experience => experience.mapIndex === activeIndex
+        );
+    }
+
+    function renderExperienceChart() {
+      const svg = d3.select("#experienceChart");
+      const width = 350;
+      const rowHeight = 48;
+      const margin = {
+        top: 8,
+        right: 44,
+        bottom: 28,
+        left: 145
+      };
+      const chartHeight = experienceTimelineData.length * rowHeight;
+      const height = margin.top + chartHeight + margin.bottom;
+      const maxMonths = d3.max(
+        experienceTimelineData,
+        experience => experience.months
+      );
+
+      const totalMonths = d3.sum(
+        experienceTimelineData,
+        experience => experience.months
+      );
+
+      document.getElementById("experienceTotal").textContent =
+        `${Math.round(totalMonths / 12)} Years`;
+
+      svg
+        .attr("viewBox", `0 0 ${width} ${height}`)
+        .attr("preserveAspectRatio", "xMinYMin meet");
+
+      const chart = svg
+        .append("g")
+        .attr(
+          "transform",
+          `translate(${margin.left},${margin.top})`
+        );
+
+      const chartWidth = width - margin.left - margin.right;
+
+      const x = d3.scaleLinear()
+        .domain([0, maxMonths])
+        .range([0, chartWidth]);
+
+      const y = d3.scaleBand()
+        .domain(
+          experienceTimelineData.map(experience => experience.label)
+        )
+        .range([0, chartHeight])
+        .padding(0.28);
+
+      chart
+        .append("g")
+        .attr("class", "experience-axis")
+        .attr("transform", `translate(0,${chartHeight})`)
+        .call(
+          d3.axisBottom(x)
+            .tickValues([0, 12, 24])
+            .tickFormat(months => `${months / 12}y`)
+            .tickSize(-chartHeight)
+        );
+
+      const rows = chart
+        .selectAll(".experience-row")
+        .data(experienceTimelineData)
+        .join("g")
+        .attr("class", experience =>
+          experience.mapIndex === null
+            ? "experience-row"
+            : "experience-row interactive"
+        )
+        .attr(
+          "transform",
+          experience => `translate(0,${y(experience.label)})`
+        )
+        .attr(
+          "tabindex",
+          experience => experience.mapIndex === null ? null : 0
+        )
+        .attr(
+          "role",
+          experience => experience.mapIndex === null ? null : "button"
+        )
+        .attr(
+          "aria-label",
+          experience =>
+            `${experience.label}, ${formatExperienceDuration(experience.months)}`
+        )
+        .on("click", (_, experience) => {
+          if (experience.mapIndex !== null) {
+            activateAssignment(experience.mapIndex);
+          }
+        })
+        .on("keydown", (event, experience) => {
+          if (
+            experience.mapIndex !== null &&
+            (event.key === "Enter" || event.key === " ")
+          ) {
+            event.preventDefault();
+            activateAssignment(experience.mapIndex);
+          }
+        });
+
+      rows
+        .append("text")
+        .attr("class", "experience-label")
+        .attr("x", -12)
+        .attr("y", experience => {
+          const lines = experience.labelLines || [experience.label];
+          return y.bandwidth() / 2 - ((lines.length - 1) * 7);
+        })
+        .attr("text-anchor", "end")
+        .each(function (experience) {
+          const lines = experience.labelLines || [experience.label];
+          const text = d3.select(this);
+
+          lines.forEach((line, index) => {
+            text
+              .append("tspan")
+              .attr("x", -12)
+              .attr("dy", index === 0 ? 0 : 14)
+              .text(line);
+          });
+        });
+
+      rows
+        .append("rect")
+        .attr("class", "experience-bar-track")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", chartWidth)
+        .attr("height", y.bandwidth())
+        .attr("rx", y.bandwidth() / 2)
+        .attr("ry", y.bandwidth() / 2);
+
+      const bars = rows
+        .append("rect")
+        .attr("class", "experience-bar")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr(
+          "width",
+          experience => x(experience.months)
+        )
+        .attr("height", y.bandwidth())
+        .attr("rx", y.bandwidth() / 2)
+        .attr("ry", y.bandwidth() / 2);
+
+      rows
+        .append("text")
+        .attr("class", "experience-duration")
+        .attr(
+          "x",
+          experience =>
+            Math.min(
+              x(experience.months) + 6,
+              chartWidth + 5
+            )
+        )
+        .attr("y", y.bandwidth() / 2)
+        .attr("dominant-baseline", "middle")
+        .text(
+          experience =>
+            formatExperienceDuration(experience.months)
+        );
+
+      rows
+        .append("title")
+        .text(
+          experience =>
+            `${experience.label}: ${formatExperienceDuration(experience.months)}`
+        );
+
+      experienceChartState = {
+        bars
+      };
+
+      updateExperienceChartActiveState();
+    }
+
+    async function renderCareerMap() {
+      const svg = d3.select("#careerMap");
+      const width = 1000;
+      const height = 470;
+
+      const assignmentPoints = {
+        type: "MultiPoint",
+        coordinates: assignments.map(assignment => assignment.coordinates)
+      };
+
+      const projection = d3.geoNaturalEarth1()
+        .fitExtent([[60, 60], [width - 60, height - 60]], assignmentPoints);
+
+      const path = d3.geoPath(projection);
+      const graticule = d3.geoGraticule10();
+
+      const mapPaths = svg.append("g").attr("id", "mapPathsLayer");
+      const leaderLayer = svg.append("g").attr("id", "leaderLayer");
+      const markersLayer = svg.append("g").attr("id", "markersLayer");
+      const labelsLayer = svg.append("g").attr("id", "labelsLayer");
+
+      mapPaths.append("path")
+        .datum({ type: "Sphere" })
+        .attr("class", "map-ocean")
+        .attr("d", path);
+
+      mapPaths.append("path")
+        .datum(graticule)
+        .attr("class", "map-graticule")
+        .attr("d", path);
+
+      try {
+        const world = await d3.json(
+          "https://cdn.jsdelivr.net/npm/world-atlas@2.0.2/countries-110m.json"
+        );
+
+        const countries = topojson.feature(
+          world,
+          world.objects.countries
+        );
+
+        mapPaths.append("g")
+          .selectAll("path")
+          .data(countries.features)
+          .join("path")
+          .attr("class", "map-country")
+          .attr("d", path);
+      } catch (error) {
+        labelsLayer.append("text")
+          .attr("x", width / 2)
+          .attr("y", height / 2)
+          .attr("text-anchor", "middle")
+          .attr("class", "map-active-note")
+          .text(
+            "The world outline could not load, but the assignment locations remain interactive."
+          );
+      }
+
+      const leaderLines = leaderLayer
+        .selectAll("line")
+        .data(assignments)
+        .join("line")
+        .attr("class", "marker-leader");
+
+      const markerGroups = markersLayer
+        .selectAll("g")
+        .data(assignments)
+        .join("g")
+        .attr("class", "assignment-marker")
+        .attr("tabindex", 0)
+        .attr("role", "button")
+        .attr(
+          "aria-label",
+          (assignment, index) =>
+            `${index + 1}, ${assignment.title}, ${assignment.location}`
+        )
+        .on("click", (_, assignment) => {
+          activateAssignment(assignments.indexOf(assignment));
+        })
+        .on("keydown", (event, assignment) => {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            activateAssignment(assignments.indexOf(assignment));
+          }
+        });
+
+      markerGroups.append("circle")
+        .attr("class", "map-node")
+        .attr("r", 14);
+
+      markerGroups.append("text")
+        .attr("class", "map-number")
+        .text((_, index) => index + 1);
+
+      markerGroups.append("title")
+        .text(
+          (assignment, index) =>
+            `${index + 1}, ${assignment.title}, ${assignment.location}`
+        );
+
+      const activeLabel = labelsLayer
+        .append("text")
+        .attr("class", "map-active-label");
+
+      const activeNote = labelsLayer
+        .append("text")
+        .attr("class", "map-active-note");
+
+      const zoom = d3.zoom()
+        .scaleExtent([0.9, 10])
+        .translateExtent([[-450, -280], [1450, 760]])
+        .on("zoom", event => {
+          currentTransform = event.transform;
+
+          mapPaths.attr("transform", currentTransform);
+          updateMarkerPositions(currentTransform);
+          updateLabels(currentTransform);
+        });
+
+      svg.call(zoom);
+
+      mapState = {
+        projection,
+        markerGroups,
+        leaderLines,
+        activeLabel,
+        activeNote,
+        zoom
+      };
+
+      document
+        .getElementById("mapZoomIn")
+        .addEventListener("click", () => {
+          svg.transition()
+            .duration(220)
+            .call(zoom.scaleBy, 1.35);
+        });
+
+      document
+        .getElementById("mapZoomOut")
+        .addEventListener("click", () => {
+          svg.transition()
+            .duration(220)
+            .call(zoom.scaleBy, 1 / 1.35);
+        });
+
+      document
+        .getElementById("mapReset")
+        .addEventListener("click", () => {
+          svg.transition()
+            .duration(260)
+            .call(zoom.transform, d3.zoomIdentity);
+        });
+
+      updateMarkerPositions(d3.zoomIdentity);
+      activateAssignment(assignments.length - 1);
+    }
+
+    renderExperienceChart();
+    renderCareerMap();
+  </script>
+</body>
+</html>
