@@ -360,22 +360,6 @@ Render may be using /index_html/index.html
 
 Check Render’s **Publish Directory** and synchronize both copies if necessary.
 
-## Recommended Future Cleanup
-
-Once the Render Publish Directory is confirmed, simplify the repository so there is only one authoritative homepage file.
-
-Preferred structure:
-
-```text
-personal-website/
-├── index.html
-├── images/
-├── resume/
-└── README.md
-```
-
-Then configure both GitHub Pages and Render to publish from the repository root.
-
 ## Quick Update Checklist
 
 ```text
