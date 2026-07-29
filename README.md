@@ -4,7 +4,7 @@ This repository contains my personal portfolio website and documents how it is p
 
 ## Live Websites
 
-- Custom domain: `https://vuops.com`
+- Custom domain: `[https://vuops.com](https://vunguyenportfolio.com/)`
 - Render site: `https://vu-nguyen.onrender.com`
 - GitHub Pages copy: `https://nguyenlamvu88.github.io/personal-website/`
 
