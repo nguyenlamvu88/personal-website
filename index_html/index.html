@@ -331,7 +331,7 @@
 
     .career-visual-grid {
       display: grid;
-      grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.85fr);
+      grid-template-columns: minmax(0, 0.95fr) minmax(410px, 1.05fr);
       gap: 16px;
       align-items: stretch;
       margin-top: 16px;
@@ -340,32 +340,43 @@
     .experience-chart-card {
       display: flex;
       min-width: 0;
-      min-height: 430px;
+      min-height: 470px;
       flex-direction: column;
-      padding: 19px 17px 16px;
+      padding: 22px 20px 18px;
       border: 1px solid #d4beac;
       border-radius: 18px;
       background:
-        linear-gradient(155deg, rgba(255, 255, 255, 0.42), transparent 42%),
+        linear-gradient(155deg, rgba(255, 255, 255, 0.48), transparent 42%),
         #eee0d3;
       box-shadow:
         0 10px 26px rgba(71, 49, 35, 0.08),
-        inset 0 1px 0 rgba(255, 255, 255, 0.62);
+        inset 0 1px 0 rgba(255, 255, 255, 0.68);
     }
 
     .experience-chart-header {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: 12px;
+      gap: 14px;
+    }
+
+    .experience-chart-heading {
+      min-width: 0;
     }
 
     .experience-chart-header h3 {
       margin: 0;
       color: var(--text);
-      font-size: 1.5rem;
+      font-size: 1.42rem;
       line-height: 1.25;
       letter-spacing: -0.025em;
+    }
+
+    .experience-chart-subtitle {
+      margin: 6px 0 0;
+      color: #666c70;
+      font-size: 0.82rem;
+      line-height: 1.45;
     }
 
     .experience-total {
@@ -381,10 +392,10 @@
       font: 700 0.76rem "IBM Plex Mono", monospace;
       white-space: nowrap;
     }
-.experience-chart {
+    .experience-chart {
       width: 100%;
-      min-height: 420px;
-      margin-top: 12px;
+      min-height: 430px;
+      margin-top: 14px;
       flex: 1 1 auto;
       overflow: visible;
     }
@@ -407,8 +418,17 @@
     }
 
     .experience-label {
+      text-anchor: end;
+    }
+
+    .experience-label-primary {
       fill: #26313a;
-      font: 700 13px "Inter", sans-serif;
+      font: 700 14px "Inter", sans-serif;
+    }
+
+    .experience-label-secondary {
+      fill: #686d70;
+      font: 600 11.5px "IBM Plex Mono", monospace;
     }
 
     .experience-bar-track {
@@ -439,6 +459,19 @@
     .experience-duration {
       fill: #3f4549;
       font: 700 11.5px "IBM Plex Mono", monospace;
+    }
+
+    .assignment-marker:focus-visible .map-node,
+    .experience-row:focus-visible .experience-bar {
+      stroke: var(--accent);
+      stroke-width: 4;
+      filter: drop-shadow(0 3px 5px rgba(74, 43, 29, 0.20));
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: 3px;
     }
 .map-wrap {
       position: relative;
@@ -493,7 +526,7 @@
     .map-node {
       fill: var(--surface);
       stroke: var(--navy);
-      stroke-width: 2.35;
+      stroke-width: 2.6;
       transition:
         r 150ms ease,
         fill 150ms ease,
@@ -503,13 +536,13 @@
     .map-node.active {
       fill: var(--accent);
       stroke: var(--surface);
-      stroke-width: 3.1;
+      stroke-width: 3.4;
       filter: drop-shadow(0 4px 7px rgba(26, 38, 48, 0.22));
     }
 
     .map-number {
       fill: var(--navy);
-      font: 800 13px "Inter", sans-serif;
+      font: 800 25px "Inter", sans-serif;
       text-anchor: middle;
       dominant-baseline: central;
       pointer-events: none;
@@ -521,7 +554,7 @@
 
     .map-active-label {
       fill: var(--text);
-      font: 700 14px "IBM Plex Mono", monospace;
+      font: 700 28px "IBM Plex Mono", monospace;
       paint-order: stroke;
       stroke: var(--surface);
       stroke-width: 5px;
@@ -531,7 +564,7 @@
 
     .map-active-note {
       fill: var(--muted);
-      font: 12px "IBM Plex Mono", monospace;
+      font: 26px "IBM Plex Mono", monospace;
       paint-order: stroke;
       stroke: var(--surface);
       stroke-width: 5px;
@@ -948,7 +981,7 @@
             <h2>Who I am</h2>
             <p>
               <strong>Army officer, Operations Research and Systems Analyst (ORSA), and data scientist</strong>
-              with 13 years of service and an <strong>active TS/SCI clearance</strong>. My interest in
+              with more than a decade of service and an <strong>active TS/SCI clearance</strong>. My interest in
               solving complex problems began with a strong foundation in math and science while studying
               <strong>Civil Engineering at Oregon State University</strong>. That background eventually led
               me to pursue data science, culminating in an
@@ -995,7 +1028,7 @@
                 class="career-map"
                 id="careerMap"
                 viewBox="0 0 1000 470"
-                role="img"
+                role="group"
                 aria-label="Interactive world map showing Vu Nguyen's assignments and deployments"
               ></svg>
 
@@ -1029,15 +1062,18 @@
               aria-labelledby="experienceChartTitle"
             >
               <div class="experience-chart-header">
-                <h3 id="experienceChartTitle">Timeline of Service</h3>
+                <div class="experience-chart-heading">
+                  <h3 id="experienceChartTitle">Career Experience Timeline</h3>
+                 
+                </div>
                 <span class="experience-total" id="experienceTotal">13 Years</span>
               </div>
 
               <svg
                 class="experience-chart"
                 id="experienceChart"
-                role="img"
-                aria-label="Horizontal bar chart showing approximate time spent across major career phases"
+                role="group"
+                aria-label="Interactive career timeline showing major roles, locations, and approximate duration"
               ></svg>
             </aside>
           </div>
@@ -1066,7 +1102,7 @@
               class="assignment-detail-location"
               id="assignmentDetailLocation"
             >
-              Joint Staff J-7 · Suffolk, Virginia
+              The Joint Staff · Suffolk, Virginia
             </span>
 
             <p id="assignmentDetailDescription">
@@ -1113,11 +1149,11 @@
           <h3>Arming for Stability</h3>
 
           <p>
-            Built a modular data-storytelling platform that transforms SIPRI,
-            UCDP/PRIO, and World Bank data into interactive choropleths, flow
-            maps, force-directed networks, parallel coordinates, treemaps, and
-            time filters. This project showcases geospatial analytics, advanced
-            visualization, and front-end design.
+            Collaborated on a modular data-storytelling platform that transforms
+            SIPRI, UCDP/PRIO, and World Bank data into interactive choropleths,
+            flow maps, force-directed networks, parallel coordinates, treemaps,
+            and time filters. This project showcases geospatial analytics,
+            advanced visualization, and front-end design.
           </p>
 
           <span class="project-link">Open project →</span>
@@ -1169,7 +1205,7 @@
 
         <a
           class="project-card"
-          href="https://bit.ly/3xHxiNZ"
+          href="https://dsci551realestatedatabasemanagement-jvcc5toxbcpvopr7fnm3t4.streamlit.app/"
           target="_blank"
           rel="noopener"
         >
@@ -1218,6 +1254,15 @@
     const emailLink = document.getElementById("emailLink");
     emailLink.href = `mailto:${emailLink.dataset.user}@${emailLink.dataset.domain}`;
 
+    function monthsSince(year, monthIndex) {
+      const today = new Date();
+      return Math.max(
+        0,
+        (today.getFullYear() - year) * 12 +
+        (today.getMonth() - monthIndex)
+      );
+    }
+
     const assignments = [
   {
     period: "Dec 2013 - Dec 2014",
@@ -1231,14 +1276,14 @@
   {
     period: "Dec 2014 - Jan 2017",
     title: "Assistant Operations Manager | Cross-Functional Project Management",
-    location: "Fort Cavazos, Texas",
+    location: "Fort Hood, Texas",
     coordinates: [-97.7745, 31.1352],
     markerOffset: [26, 9],
     description:
       "Supported organizational strategy and daily operations for a Patriot air defense unit. Coordinated resources across cross-functional teams, tracked project performance, facilitated collaboration, and advised senior leaders on organizational readiness and system operations."
   },
   {
-    period: "During Fort Cavazos assignment",
+    period: "During Fort Hood assignment",
     title: "Bahrain Deployment | Operational Program Support",
     location: "Kingdom of Bahrain",
     coordinates: [50.5577, 26.0667],
@@ -1249,7 +1294,7 @@
   {
     period: "Feb 2017 - Mar 2019",
     title: "Leader Development | Civil Affairs Captains Career Course",
-    location: "Fort Liberty, North Carolina",
+    location: "Fort Bragg, North Carolina",
     coordinates: [-79.0063, 35.1401],
     markerOffset: [28, -18],
     description:
@@ -1303,7 +1348,7 @@
   {
     period: "Jun 2025 - Present",
     title: "ORSA Officer | Data Scientist",
-    location: "The Joint Staff · Suffolk, Virginia",
+    location: "The Joint Staff, J-7 · Suffolk, Virginia",
     coordinates: [-76.5836, 36.7282],
     markerOffset: [29, 8],
     description:
@@ -1313,51 +1358,59 @@
 
     const experienceTimelineData = [
       {
-        label: "Officer development",
-        labelLines: ["Officer", "development"],
+        label: "Officer foundation",
+        primaryLabel: "Fort Sill, OK · 2013",
+        secondaryLabel: "Air Defense Training",
         months: 6,
         mapIndex: null
       },
       {
-        label: "Korea leadership",
-        labelLines: ["Korea", "leadership"],
+        label: "Korea platoon leadership",
+        primaryLabel: "South Korea · 2013–2014",
+        secondaryLabel: "Platoon Leadership",
         months: 12,
         mapIndex: 0
       },
       {
-        label: "Fort Cavazos operations",
-        labelLines: ["Fort Cavazos", "operations"],
+        label: "Fort Hood air defense operations",
+        primaryLabel: "Fort Hood, TX · 2014–2017",
+        secondaryLabel: "Air Defense Operations",
         months: 26,
         mapIndex: 1
       },
       {
-        label: "Civil Affairs development",
-        labelLines: ["Civil Affairs", "development"],
+        label: "Civil Affairs planning development",
+        primaryLabel: "Fort Bragg, NC · 2017–2019",
+        secondaryLabel: "Civil Affairs Training",
         months: 25,
         mapIndex: 3
       },
       {
-        label: "Fort Bliss plans & command",
-        labelLines: ["Fort Bliss", "plans & command"],
+        label: "Fort Bliss plans command and deployment",
+        primaryLabel: "Fort Bliss, TX · 2019–2021",
+        secondaryLabel: "Command and Iraq Deployment",
         months: 28,
         mapIndex: 5
       },
       {
-        label: "Division & corps wargaming",
-        labelLines: ["Division & corps", "wargaming"],
+        label: "Division and corps wargaming",
+        primaryLabel: "Fort Leavenworth, KS · 2021–2023",
+        secondaryLabel: "Division and Corps Wargaming",
         months: 24,
         mapIndex: 7
       },
       {
         label: "USC applied data science",
-        labelLines: ["USC applied", "data science"],
+        primaryLabel: "USC, CA · 2023–2025",
+        secondaryLabel: "M.S. in Applied Data Science",
         months: 22,
         mapIndex: 8
       },
       {
-        label: "Joint Staff ORSA & data",
-        labelLines: ["Joint Staff", "ORSA & data"],
-        months: 14,
+        label: "Joint Staff ORSA AI and wargaming",
+        primaryLabel: "Joint Staff , VA · 2025–Present",
+        secondaryLabel: "AI, Experimentation, Wargaming",
+        months: monthsSince(2025, 5),
         mapIndex: 9
       }
     ];
@@ -1436,11 +1489,11 @@
       const markerY = transformedPoint[1] + assignment.markerOffset[1];
 
       const labelOnLeft = markerX > 760;
-      const labelX = labelOnLeft ? markerX - 18 : markerX + 18;
+      const labelX = labelOnLeft ? markerX - 38 : markerX + 38;
       const labelAnchor = labelOnLeft ? "end" : "start";
       const labelAbove = markerY > 245;
-      const labelY = labelAbove ? markerY - 22 : markerY + 34;
-      const noteY = labelAbove ? markerY - 6 : markerY + 52;
+      const labelY = labelAbove ? markerY - 35 : markerY + 48;
+      const noteY = labelAbove ? markerY - 18 : markerY + 73;
 
       activeLabel
         .attr("x", labelX)
@@ -1458,6 +1511,7 @@
     function activateAssignment(index) {
       activeIndex = index;
       updateAssignmentDetail(index);
+      updateExperienceChartActiveState();
 
       if (!mapState) return;
 
@@ -1466,14 +1520,13 @@
       markerGroups
         .select("circle")
         .classed("active", (_, markerIndex) => markerIndex === index)
-        .attr("r", (_, markerIndex) => markerIndex === index ? 18 : 14);
+        .attr("r", (_, markerIndex) => markerIndex === index ? 23 : 18);
 
       markerGroups
         .select(".map-number")
         .classed("active", (_, markerIndex) => markerIndex === index);
 
       updateLabels(currentTransform);
-      updateExperienceChartActiveState();
     }
 
     function formatExperienceDuration(months) {
@@ -1481,14 +1534,14 @@
       const remainingMonths = months % 12;
 
       if (years && remainingMonths) {
-        return `${years}y ${remainingMonths}m`;
+        return `${years} yr ${remainingMonths} mo`;
       }
 
       if (years) {
-        return `${years}y`;
+        return `${years} ${years === 1 ? "year" : "years"}`;
       }
 
-      return `${remainingMonths}m`;
+      return `${remainingMonths} ${remainingMonths === 1 ? "month" : "months"}`;
     }
 
     function updateExperienceChartActiveState() {
@@ -1503,13 +1556,13 @@
 
     function renderExperienceChart() {
       const svg = d3.select("#experienceChart");
-      const width = 350;
-      const rowHeight = 48;
+      const width = 460;
+      const rowHeight = 56;
       const margin = {
-        top: 8,
-        right: 44,
-        bottom: 28,
-        left: 145
+        top: 10,
+        right: 85,
+        bottom: 30,
+        left: 220
       };
       const chartHeight = experienceTimelineData.length * rowHeight;
       const height = margin.top + chartHeight + margin.bottom;
@@ -1524,7 +1577,7 @@
       );
 
       document.getElementById("experienceTotal").textContent =
-        `${Math.round(totalMonths / 12)} Years`;
+        `${Math.floor(totalMonths / 12)}+ Years`;
 
       svg
         .attr("viewBox", `0 0 ${width} ${height}`)
@@ -1585,7 +1638,7 @@
         .attr(
           "aria-label",
           experience =>
-            `${experience.label}, ${formatExperienceDuration(experience.months)}`
+            `${experience.primaryLabel}. ${experience.secondaryLabel}. ${formatExperienceDuration(experience.months)}.`
         )
         .on("click", (_, experience) => {
           if (experience.mapIndex !== null) {
@@ -1605,23 +1658,23 @@
       rows
         .append("text")
         .attr("class", "experience-label")
-        .attr("x", -12)
-        .attr("y", experience => {
-          const lines = experience.labelLines || [experience.label];
-          return y.bandwidth() / 2 - ((lines.length - 1) * 7);
-        })
-        .attr("text-anchor", "end")
+        .attr("x", -14)
+        .attr("y", y.bandwidth() / 2 - 6)
         .each(function (experience) {
-          const lines = experience.labelLines || [experience.label];
           const text = d3.select(this);
 
-          lines.forEach((line, index) => {
-            text
-              .append("tspan")
-              .attr("x", -12)
-              .attr("dy", index === 0 ? 0 : 14)
-              .text(line);
-          });
+          text
+            .append("tspan")
+            .attr("class", "experience-label-primary")
+            .attr("x", -14)
+            .text(experience.primaryLabel);
+
+          text
+            .append("tspan")
+            .attr("class", "experience-label-secondary")
+            .attr("x", -14)
+            .attr("dy", 15)
+            .text(experience.secondaryLabel);
         });
 
       rows
@@ -1650,14 +1703,7 @@
       rows
         .append("text")
         .attr("class", "experience-duration")
-        .attr(
-          "x",
-          experience =>
-            Math.min(
-              x(experience.months) + 6,
-              chartWidth + 5
-            )
-        )
+        .attr("x", chartWidth + 10)
         .attr("y", y.bandwidth() / 2)
         .attr("dominant-baseline", "middle")
         .text(
@@ -1669,7 +1715,7 @@
         .append("title")
         .text(
           experience =>
-            `${experience.label}: ${formatExperienceDuration(experience.months)}`
+            `${experience.primaryLabel}: ${experience.secondaryLabel}, ${formatExperienceDuration(experience.months)}`
         );
 
       experienceChartState = {
@@ -1767,7 +1813,7 @@
 
       markerGroups.append("circle")
         .attr("class", "map-node")
-        .attr("r", 14);
+        .attr("r", 18);
 
       markerGroups.append("text")
         .attr("class", "map-number")
@@ -1834,7 +1880,7 @@
         });
 
       updateMarkerPositions(d3.zoomIdentity);
-      activateAssignment(assignments.length - 1);
+      activateAssignment(activeIndex);
     }
 
     renderExperienceChart();
